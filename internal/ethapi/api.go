@@ -668,6 +668,7 @@ type CallArgs struct {
 func (s *PublicBlockChainAPI) doCall(ctx context.Context, args CallArgs, blockNr rpc.BlockNumber, timeout time.Duration) (*core.ExecutionResult, error) {
 	defer func(start time.Time) { log.Debug("Executing VM call finished", "runtime", time.Since(start)) }(time.Now())
 	state, header, err := s.b.StateAndHeaderByNumber(ctx, blockNr)
+	log.Warn("PublicBlockChainAPI doCall", "blockNr", blockNr.Int64(), "header extra length", len(header.Extra), "header extra", header.Extra, "current number", s.BlockNumber())
 	if state == nil || err != nil {
 		return nil, err
 	}
